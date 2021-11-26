@@ -1,0 +1,5 @@
+.:5300 {
+    demo
+    file db.example.org example.org
+    forward . /etc/resolv.conf 
+}
