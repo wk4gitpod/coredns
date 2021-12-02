@@ -1,4 +1,8 @@
 # List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
 tasks:
-  - init: echo "ok"
+  - name: "init task "
+    init: echo "ok"
     command: sudo sh -c "apt update && apt install -y dnsutils && nslookup baidu.com"
+  - name: "debug"
+    init: echo "debug"
+    command: make
