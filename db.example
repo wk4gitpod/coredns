@@ -1,0 +1,7 @@
+$ORIGIN example.
+@	3600 IN	SOA a.example. noc.example. 2017043756 7200 3600 1209600 3600
+	3600 IN NS a.example.
+
+www     IN A     127.0.0.1
+abc.example.    IN      CNAME   host1.xyz1.com.
+

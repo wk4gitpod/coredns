@@ -22,3 +22,12 @@
     log . "{remote}:{port} {type} {class} {name} {proto} {size} {rcode} {rsize} {duration}"
     errors
 }
+
+
+example:5300 {
+    hosts {
+        100.100.100.100  hello.example
+        fallthrough
+    }
+    file db.example example
+}
