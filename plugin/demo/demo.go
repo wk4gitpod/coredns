@@ -3,17 +3,19 @@ package demo
 
 import (
 	"context"
-	"fmt"
 	"net"
 	"strings"
 
+	"github.com/coredns/coredns/plugin"
 	"github.com/coredns/coredns/request"
 
 	"github.com/miekg/dns"
 )
 
 // Demo is a plugin in CoreDNS
-type Demo struct{}
+type Demo struct {
+	Next plugin.Handler
+}
 
 // ServeDNS implements the plugin.Handler interface.
 func (p Demo) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (int, error) {
@@ -24,12 +26,12 @@ func (p Demo) ServeDNS(ctx context.Context, w dns.ResponseWriter, r *dns.Msg) (i
 	if strings.HasPrefix(state.IP(), "172.") || strings.HasPrefix(state.IP(), "127.") {
 		reply = "1.1.1.1"
 	}
-	fmt.Printf("Received query %s from %s, expected to reply %s\n", qname, state.IP(), reply)
+	// fmt.Printf("Received query %s from %s, expected to reply %s\n", qname, state.IP(), reply)
 
 	answers := []dns.RR{}
 
 	if state.QType() != dns.TypeA {
-		return dns.RcodeNameError, nil
+		return p.Next.ServeDNS(ctx, w, r)
 	}
 
 	rr := new(dns.A)

@@ -1,5 +1,24 @@
 .:5300 {
     demo
+    # 先走本机的hosts
+    # https://coredns.io/plugins/hosts/
+    hosts {
+        # 自定义sms.service search.service 的解析
+        # 因为解析的域名少我们这里直接用hosts插件即可完成需求
+        # 如果有大量自定义域名解析那么建议用file插件使用 符合RFC 1035规范的DNS解析配置文件
+        200.200.200.200 hello.handshake
+        # ttl 
+        ttl 60
+        # 重载hosts配置
+        reload 1m
+        # 继续执行
+        fallthrough
+    }
+
     file db.example.org example.org
     forward . /etc/resolv.conf 
+    cache 120
+    reload 15s
+    log . "{remote}:{port} {type} {class} {name} {proto} {size} {rcode} {rsize} {duration}"
+    errors
 }
